@@ -11,19 +11,15 @@ export class HomeComponent {
 
   users: any;
 
-  constructor(private _http: HttpClient) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.getUsers();
-  }
+  ngOnInit(): void {}
 
   registerToggle() {
     this.registerMode = !this.registerMode;
   }
 
-  getUsers() {
-    this._http
-      .get('https://localhost:5001/api/users')
-      .subscribe((users) => (this.users = users));
+  cancelRegisterMode(event: boolean) {
+    this.registerMode = event;
   }
 }
