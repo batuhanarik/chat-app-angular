@@ -21,13 +21,32 @@
         *ngIf="_account.currentUser$ | async"
       >
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Matches</a>
+          <a
+            class="nav-link active"
+            aria-current="page"
+            routerLink="/members"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Matches</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Lists</a>
+          <a
+            class="nav-link"
+            routerLink="/lists"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Lists</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link">Messages</a>
+          <a
+            class="nav-link"
+            routerLink="/messages"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Messages</a
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" (click)="logout()">Logout</a>
