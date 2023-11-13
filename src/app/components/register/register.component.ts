@@ -19,7 +19,6 @@ export class RegisterComponent {
   register() {
     this._account.register(this.model).subscribe(
       (response) => {
-        console.log(response);
         this.cancel();
       },
       (error) => {
