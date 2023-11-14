@@ -21,15 +21,9 @@ export class NavComponent {
   ngOnInit(): void {}
 
   login() {
-    this._account.login(this.model).subscribe(
-      (res: any) => {
-        this.router.navigateByUrl('/members');
-      },
-      (error: any) => {
-        console.log(error);
-        this._toastr.error(error.error);
-      }
-    );
+    this._account.login(this.model).subscribe((res: any) => {
+      this.router.navigateByUrl('/members');
+    });
   }
   logout() {
     this._account.logout();
