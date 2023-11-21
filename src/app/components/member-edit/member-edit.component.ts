@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Member } from 'src/app/models/member';
 import { User } from 'src/app/models/user';
@@ -11,12 +13,21 @@ import { MemberService } from 'src/app/services/member.service';
   styleUrls: ['./member-edit.component.css'],
 })
 export class MemberEditComponent {
+  @ViewChild('editForm') editForm: NgForm;
   member: Member;
   user: User;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private _account: AccountService,
-    private _member: MemberService
+    private _member: MemberService,
+    private toastr: ToastrService
   ) {
     this._account.currentUser$
       .pipe(take(1))
@@ -28,6 +39,13 @@ export class MemberEditComponent {
   getMember() {
     this._member.getMember(this.user.username).subscribe((member) => {
       this.member = member;
+    });
+  }
+
+  updateMember() {
+    this._member.updateMember(this.member).subscribe(() => {
+      this.toastr.success('Profile updated successfully');
+      this.editForm.reset(this.member);
     });
   }
 }
