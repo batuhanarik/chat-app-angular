@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../models/member';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map, of, take } from 'rxjs';
 import { AccountService } from './account.service';
 import { UserParams } from '../models/userParams';
 import { User } from '../models/user';
@@ -31,9 +31,20 @@ export class MemberService {
   }
 
   getMembers(): Observable<Member[]> {
-    return this._http.get<Member[]>(this.baseUrl + this.endpointUrl);
+    if (this.members.length > 0) {
+      return of(this.members);
+    }
+    return this._http.get<Member[]>(this.baseUrl + this.endpointUrl).pipe(
+      map((members) => {
+        this.members = members;
+        return members;
+      })
+    );
   }
   getMember(username): Observable<Member> {
+    const member = this.members.find((x) => x.userName === username);
+    if (member !== undefined) return of(member);
+
     return this._http.get<Member>(
       `${this.baseUrl}${this.endpointUrl}/` + username
     );
