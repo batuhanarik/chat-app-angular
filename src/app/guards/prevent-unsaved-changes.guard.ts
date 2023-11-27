@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { MemberEditComponent } from '../components/member-edit/member-edit.component';
 
-export class PreventUnsavedChangesGuard implements CanDeactivate<unknown> {
+export class PreventUnsavedChangesGuard {
   canDeactivate(component: MemberEditComponent): boolean {
     if (component.editForm.dirty) {
       return confirm(
